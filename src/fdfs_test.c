@@ -7,12 +7,13 @@
 
 #include "make_log.h"
 
+#define FDFSID_LEN 256
 
-int main(int argc,char**argv)
+int main(int argc,char** argv)
 {
     pid_t pid;         
     int pipefd[2]; //0 read   1 write 
-    char fdfsid[128] = {0}; 
+    char fdfsid[FDFSID_LEN] = {0}; 
 
     pipe(pipefd);
 
@@ -28,7 +29,7 @@ int main(int argc,char**argv)
         close(pipefd[1]); //关闭写端
         //parent
         wait(NULL);
-        read(pipefd[0],fdfsid,sizeof(fdfsid));
+        read(pipefd[0],fdfsid,FDFSID_LEN);
         LOG("FDFS_MOUDUAL","FDFS_TEST","fdfs_id[%s]",fdfsid);
         printf("im parent %d\n",getpid());
     }
@@ -47,5 +48,6 @@ int main(int argc,char**argv)
 
 
     //printf("hello world\n");
+    printf("hello world\n");
     return 0;
 }
